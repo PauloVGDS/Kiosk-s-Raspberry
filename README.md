@@ -49,6 +49,8 @@ Configuração de um **Raspberry Pi 3 B** com **Raspberry Pi OS Lite** para exib
      sudo raspi-config
      ```
    - Defina o fuso horário: **Localisation Options > Change Timezone > America > Sao_Paulo**.
+   - Defina o Boot em modo Desktop: **1 System Options > S5 Boot > B2 Desktop GUI**
+   - Defina o Login Automático no modo Desktop: **1 System Options > S6 Auto Login > Would you like to automatically log in to the Desktop? > Yes > Ok**
    - Salve as alterações e reinicie:
      ```bash
      sudo reboot
@@ -110,7 +112,7 @@ Configure o Chromium para abrir o dashboard em modo kiosk, em tela cheia.
    Adicione:
    ```bash
    #!/bin/bash
-   chromium-browser --kiosk --start-fullscreen --noerrdialogs --force-device-scale-factor=1 https://url-para-qualquer-site
+   chromium-browser --kiosk --start-maximized --noerrdialogs --disable-infobars --enable-features=OverlayScrollBar https://url-para-qualquer-site
    ```
    Substitua `https://url-para-qualquer-site` pela URL do seu dashboard.
 
@@ -163,14 +165,14 @@ Configure o Chromium para abrir o dashboard em modo kiosk, em tela cheia.
 
 2. **`~/.config/openbox/autostart`**:
    ```bash
-  unclutter -idle 0.5 &
+   unclutter -idle 0.5 &
    ~/.config/autostart/dashboard.sh &
    ```
 
 3. **`~/.config/autostart/dashboard.sh`**:
    ```bash
    #!/bin/bash
-   chromium-browser --kiosk --start-fullscreen --noerrdialogs --force-device-scale-factor=1 file:///home/pi/dashboard_loader.html
+   chromium-browser --kiosk --start-maximized --noerrdialogs --disable-infobars --enable-features=OverlayScrollBar https://url-para-qualquer-site
    ```
 
 
@@ -193,10 +195,8 @@ Configure o Chromium para abrir o dashboard em modo kiosk, em tela cheia.
 #!/bin/bash
 sudo apt update
 sudo apt install xorg openbox lightdm chromium-browser -y
-sudo cp config/lightdm.conf /etc/lightdm/lightdm.conf
 mkdir -p ~/.config/openbox
-cp config/openbox_autostart ~/.config/openbox/autostart
 mkdir -p ~/.config/autostart
-cp config/dashboard.sh ~/.config/autostart/dashboard.sh
-chmod +x ~/.config/autostart/dashboard.sh 
+chmod +x ~/.config/autostart/dashboard.sh
+# Preencha os arquivos.
 ```
